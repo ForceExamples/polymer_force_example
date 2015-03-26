@@ -1,0 +1,19 @@
+name: 'polymer_force_example'
+version: 0.0.1
+description: >
+  A starter template for a polymer.dart web app.
+#author: <your name> <email@example.com>
+#homepage: https://www.example.com
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  browser: any
+  polymer: '>=0.15.4 <0.16.0'
+  paper_elements: '>=0.6.1 <0.7.0'
+  force: 
+    git: git://github.com/ForceUniverse/dart-force.git 
+  bigcargo: any
+  cargo: any
+transformers:
+- polymer:
+    entry_points: web/index.html

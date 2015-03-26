@@ -1,0 +1,46 @@
+<!--
+  Copyright (c) 2015, <your name>. All rights reserved. Use of this source code
+  is governed by a BSD-style license that can be found in the LICENSE file.
+-->
+
+<!-- import polymer-element's definition -->
+<link rel="import" href="../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../packages/paper_elements/paper_button.html">
+
+<link rel="import" href="force/force_register_element.html">
+
+<polymer-element name="main-app" attributes="forceClientId">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    
+    <force-register forceClientId="clientId" name="todos" viewCollection="{{todosView}}"></force-register>
+
+    <paper-input label="Type something..." value="{{message}}"></paper-input>
+    <paper-button raised on-click="{{add}}">Add</paper-button>
+
+    <h1>New data</h1>
+    
+    <section id="main">
+        <ul id="channel-list">
+          <template if="{{todos != null}}" repeat="{{todo in todos.items}}">
+            <li>{{todo}}</li>
+          </template>
+        </ul>
+    </section>
+    <hr />
+    <section id="main-server">
+        <ul id="channel-list-server">
+          <template if="{{todosView != null}}" repeat="{{item in todosView.items}}">
+            <li>{{item}}</li>
+          </template>
+        </ul>
+    </section>
+  </template>
+  <script type="application/dart" src="main_app.dart"></script>
+</polymer-element>
