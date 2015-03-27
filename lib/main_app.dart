@@ -27,6 +27,8 @@ class MainApp extends PolymerElement {
   
   @published String forceClientId;
   
+  @published var number;
+  
   /// Constructor used to create instance of MainApp.
   MainApp.created() : super.created() {}
   

@@ -2,6 +2,7 @@ library aproducthuntdart;
 
 import 'package:force/force_serverside.dart';
 import 'package:bigcargo/bigcargo.dart';
+import 'dart:math';
 import 'dart:async';
 
 main() {
@@ -26,6 +27,19 @@ main() {
           // call fcp.cancel() when the transaction needs to be cancelled
           
         }
+      });
+      
+      /// TESTING OUT for force-on element
+      //send random numbers to the clients
+      const TIMEOUT = const Duration(seconds: 3);
+      var number = 0;
+
+      new Timer.periodic(TIMEOUT, (Timer t) {
+          var rng = new Random();
+          number=rng.nextInt(250);
+          
+          var data = { "count" : "$number"};
+          fs.send("update", data);
       });
     
     });

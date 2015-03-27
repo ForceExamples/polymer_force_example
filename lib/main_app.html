@@ -10,6 +10,7 @@
 <link rel="import" href="../../packages/paper_elements/paper_button.html">
 
 <link rel="import" href="force/force_register_element.html">
+<link rel="import" href="force/force_on_element.html">
 
 <polymer-element name="main-app" attributes="forceClientId">
   <template>
@@ -19,12 +20,15 @@
       }
     </style>
     
-    <force-register forceClientId="clientId" name="todos" viewCollection="{{todosView}}"></force-register>
+    <force-register forceClientId="{{forceClientId}}" name="todos" viewCollection="{{todosView}}"></force-register>
+    <force-on forceClientId="{{forceClientId}}" request="update" data="{{number}}"></force-on>
 
     <paper-input label="Type something..." value="{{message}}"></paper-input>
     <paper-button raised on-click="{{add}}">Add</paper-button>
 
     <h1>New data</h1>
+    
+    <p>What do we get from the server? {{number}}</p>
     
     <section id="main">
         <ul id="channel-list">
