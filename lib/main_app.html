@@ -9,8 +9,8 @@
 <link rel="import" href="../../packages/paper_elements/paper_input.html">
 <link rel="import" href="../../packages/paper_elements/paper_button.html">
 
-<link rel="import" href="force/force_register_element.html">
-<link rel="import" href="force/force_on_element.html">
+<link rel="import" href="../../packages/force_elements/force_on_element.html">
+<link rel="import" href="../../packages/polymer_force_example/force/force_register_element.html">
 
 <polymer-element name="main-app" attributes="forceClientId">
   <template>
@@ -20,9 +20,8 @@
       }
     </style>
     
-    <force-register forceClientId="{{forceClientId}}" name="todos" viewCollection="{{todosView}}"></force-register>
     <force-on forceClientId="{{forceClientId}}" request="update" data="{{number}}"></force-on>
-
+    <force-register forceClientId="{{forceClientId}}" name="todos" viewCollection="{{todosView}}"></force-register>
     <paper-input label="Type something..." value="{{message}}"></paper-input>
     <paper-button raised on-click="{{add}}">Add</paper-button>
 
@@ -40,8 +39,8 @@
     <hr />
     <section id="main-server">
         <ul id="channel-list-server">
-          <template if="{{todosView != null}}" repeat="{{item in todosView.items}}">
-            <li>{{item}}</li>
+          <template if="{{todosView != null}}" repeat="{{key in todosView.mapItems.keys}}">
+            <li>{{todosView.mapItems[key]}}</li>
           </template>
         </ul>
     </section>

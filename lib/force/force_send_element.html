@@ -1,0 +1,19 @@
+<!--
+Element that will send data to a name  
+
+`force-send` a wrapper around force.send
+
+    <force-send forceClientId="fcid" request="listen" data="{{data}}"></force-send>
+
+@group Force Core Elements
+@element force-client
+@blurb Element access to forceClient.
+@categories Data
+-->
+
+<link rel="import" href="../../../packages/polymer/polymer.html">
+ 
+<polymer-element name="force-send" attributes="request data" hidden>
+<script type="application/dart" src="force_send_element.dart"></script>
+</polymer-element>
+

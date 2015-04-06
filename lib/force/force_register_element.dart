@@ -5,11 +5,14 @@ import 'dart:html';
 import 'package:force/force_browser.dart';
 import 'package:polymer/polymer.dart';
 
-import 'force_depending_element.dart';
+import 'package:force_elements/force_element.dart';
 import 'package:cargo/cargo_client.dart';
 
 class ObservableViewCollection extends Object with Observable {
   final ObservableList items = new ObservableList();
+  
+  ObservableMap mapItems = new ObservableMap.linked();
+  
   ViewCollection _viewCollection;
   
   activate(ViewCollection viewCollection) {
@@ -17,12 +20,15 @@ class ObservableViewCollection extends Object with Observable {
       // Insert the message at the bottom of the current list, or at a given index.
 
       viewCollection.onChange((DataEvent de) {
-         if (de.type==DataType.CHANGED) {
-             items.add(toObservable(de.data));
+         /*if (de.type==DataType.CHANGED) {
+             mapItems[de.key] = (toObservable(de.data));
          }
          if (de.type==DataType.REMOVED) {
              items.remove(toObservable(de.data));
-         }
+         }*/
+         
+         mapItems.clear();
+         mapItems.addAll(toObservable(_viewCollection.data, deep: false));
       });
   }
   
@@ -35,7 +41,7 @@ class ObservableViewCollection extends Object with Observable {
 ///
 ///     <force-register forceClientId="fcid" name="todos" viewCollection="{{todos}}"></force-register>
 @CustomTag('force-register')
-class ForceRegisterElement extends ForceDependingElement {
+class ForceRegisterElement extends ForceElement {
   Cargo cargo;
   
   factory ForceRegisterElement() => new Element.tag('force-register');
@@ -65,7 +71,7 @@ class ForceRegisterElement extends ForceDependingElement {
     if (cargo==null) {
         cargo = new Cargo(MODE: CargoMode.LOCAL); 
     }
-    ViewCollection todos = fcElement.forceClient.register(name, cargo);
+    ViewCollection todos = forceClient.register(name, cargo);
     
     viewCollection.activate(todos);
     //this.asyncFire('registered');

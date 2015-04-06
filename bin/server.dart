@@ -31,7 +31,7 @@ main() {
       
       /// TESTING OUT for force-on element
       //send random numbers to the clients
-      const TIMEOUT = const Duration(seconds: 3);
+      /*const TIMEOUT = const Duration(seconds: 3);
       var number = 0;
 
       new Timer.periodic(TIMEOUT, (Timer t) {
@@ -40,7 +40,7 @@ main() {
           
           var data = { "count" : "$number"};
           fs.send("update", data);
-      });
+      });*/
     
     });
 }

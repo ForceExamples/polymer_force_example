@@ -8,11 +8,13 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
   browser: any
-  polymer: '>=0.15.4 <0.16.0'
+  polymer: '>=0.16.0+7 <0.17.0'
   paper_elements: '>=0.6.1 <0.7.0'
-  force: 
-    git: git://github.com/ForceUniverse/dart-force.git 
-  bigcargo: any
+  force_elements: 
+    git: git://github.com/ForceUniverse/force_elements.git
+  force:
+    git: git://github.com/ForceUniverse/dart-force.git
+  bigcargo: '>=0.2.5 <0.3.0'
   cargo: any
 transformers:
 - polymer:
