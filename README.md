@@ -1,10 +1,3 @@
-# {{ projectName }}
+# Force and Polymer a good mariage
 
-A starter template for a polymer.dart web app.
-
-## Creating new elements
-
-The `polymer` package includes a utility to generate new elements. From
-within this project, run:
-
-`pub run polymer:new_element <name>`
+Working example of how you can use polymer and force together
