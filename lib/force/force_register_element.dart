@@ -9,9 +9,9 @@ import 'package:force_elements/force_element.dart';
 import 'package:cargo/cargo_client.dart';
 
 class ObservableViewCollection extends Object with Observable {
-  final ObservableList items = new ObservableList();
+  final ObservableList keys = new ObservableList();
   
-  ObservableMap mapItems = new ObservableMap.linked();
+  ObservableMap data = new ObservableMap.linked();
   
   ViewCollection _viewCollection;
   
@@ -20,15 +20,14 @@ class ObservableViewCollection extends Object with Observable {
       // Insert the message at the bottom of the current list, or at a given index.
 
       viewCollection.onChange((DataEvent de) {
-         /*if (de.type==DataType.CHANGED) {
-             mapItems[de.key] = (toObservable(de.data));
+         if (de.type==DataType.CHANGED) {
+             data[de.key] = (toObservable(de.data));
          }
          if (de.type==DataType.REMOVED) {
-             items.remove(toObservable(de.data));
-         }*/
-         
-         mapItems.clear();
-         mapItems.addAll(toObservable(_viewCollection.data, deep: false));
+            data.remove(toObservable(de.data));
+         }
+         keys.clear();
+         keys.addAll(_viewCollection.data.keys);
       });
   }
   
@@ -59,13 +58,22 @@ class ForceRegisterElement extends ForceElement {
   /**
    * viewCollection that is been observable
    *
-   * @attribute name
+   * @attribute collection
    * @type string
    * @default 'default'
    */
-  @published ObservableViewCollection viewCollection = new ObservableViewCollection();
+  @published ObservableViewCollection collection = new ObservableViewCollection();
     
-    
+  
+  /**
+   * All keys in data (array of names, if you think of data as a set of name/value pairs).
+   *
+   * @attribute keys
+   * @type string
+   * @default 'default'
+   */
+  @published ObservableList keys;
+      
   
   void connected() {
     if (cargo==null) {
@@ -73,7 +81,9 @@ class ForceRegisterElement extends ForceElement {
     }
     ViewCollection todos = forceClient.register(name, cargo);
     
-    viewCollection.activate(todos);
+    collection.activate(todos);
+    
+    keys = collection.keys;
     //this.asyncFire('registered');
   }
 }

@@ -21,7 +21,7 @@
     </style>
     
     <force-on forceClientId="{{forceClientId}}" request="update" data="{{number}}"></force-on>
-    <force-register forceClientId="{{forceClientId}}" name="todos" viewCollection="{{todosView}}"></force-register>
+    <force-register forceClientId="{{forceClientId}}" name="todos" collection="{{collection}}" keys="{{keys}}"></force-register>
     <paper-input label="Type something..." value="{{message}}"></paper-input>
     <paper-button raised on-click="{{add}}">Add</paper-button>
 
@@ -39,8 +39,8 @@
     <hr />
     <section id="main-server">
         <ul id="channel-list-server">
-          <template if="{{todosView != null}}" repeat="{{key in todosView.mapItems.keys}}">
-            <li>{{todosView.mapItems[key]}}</li>
+          <template if="{{collection != null}}" repeat="{{key in keys}}">
+            <li>{{collection.data[key]}}</li>
           </template>
         </ul>
     </section>

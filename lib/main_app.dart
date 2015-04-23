@@ -23,7 +23,8 @@ class MainApp extends PolymerElement {
   @observable String message = '';
   
   @published Todos todos = new Todos();
-  @published ObservableViewCollection todosView;
+  @published ObservableViewCollection collection;
+  @published ObservableList keys;
   
   @published String forceClientId;
   
@@ -33,15 +34,15 @@ class MainApp extends PolymerElement {
   MainApp.created() : super.created() {}
   
   void activate() {
-    if (todosView!=null) {
+    if (collection!=null) {
       print("this is a test!");
     }
   }
 
   void add() {
     todos.add(message);
-    if (todosView!=null) {
-      todosView.add(message);
+    if (collection!=null) {
+      collection.add(message);
     }
   }
 
