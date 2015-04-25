@@ -19,16 +19,22 @@ class ObservableViewCollection extends Object with Observable {
       this._viewCollection = viewCollection;
       // Insert the message at the bottom of the current list, or at a given index.
 
-      viewCollection.onChange((DataEvent de) {
-         if (de.type==DataType.CHANGED) {
-             data[de.key] = (toObservable(de.data));
-         }
-         if (de.type==DataType.REMOVED) {
-            data.remove(toObservable(de.data));
-         }
-         keys.clear();
-         keys.addAll(_viewCollection.data.keys);
-      });
+      viewCollection.onChange(dataChanges);
+  }
+  
+  dataChanges(DataEvent de) {
+      if (de.type==DataType.CHANGED) {
+          data[de.key] = (toObservable(de.data));
+               
+          if (this._viewCollection.options.revert) {
+              keys.insert(0, de.key);
+          } else {
+              keys.add(de.key);
+          }
+      }
+      if (de.type==DataType.REMOVED) {
+          data.remove(toObservable(de.data));
+      }
   }
   
   void add(value) {
@@ -47,6 +53,15 @@ class ForceRegisterElement extends ForceElement {
   ForceRegisterElement.created() : super.created();
   
   /**
+   * Do you want to have the collection revert
+   *
+   * @attribute revert
+   * @type bool
+   * @default false
+   */
+  @published bool revert = false;
+  
+  /**
    * The url we need to connect to
    *
    * @attribute name
@@ -59,8 +74,8 @@ class ForceRegisterElement extends ForceElement {
    * viewCollection that is been observable
    *
    * @attribute collection
-   * @type string
-   * @default 'default'
+   * @type ObservableViewCollection
+   * @default new ObservableViewCollection();
    */
   @published ObservableViewCollection collection = new ObservableViewCollection();
     
@@ -73,17 +88,40 @@ class ForceRegisterElement extends ForceElement {
    * @default 'default'
    */
   @published ObservableList keys;
-      
   
+  /**
+   * The query params of the collection, so you can filter the collection to your needs.
+   *
+   * @attribute params
+   * @type string
+   * @default 'default'
+   */
+  @published ObservableMap params;
+  
+  bool loaded = false;
+      
   void connected() {
     if (cargo==null) {
         cargo = new Cargo(MODE: CargoMode.LOCAL); 
     }
-    ViewCollection todos = forceClient.register(name, cargo);
-    
-    collection.activate(todos);
-    
-    keys = collection.keys;
+    this._recollect(new Options(revert: revert));
     //this.asyncFire('registered');
+    
+    loaded = true;
+  }
+  
+  void _recollect(Options options) {
+    ViewCollection todos = forceClient.register(name, cargo, options: options, params: params);
+    collection.activate(todos);
+        
+    keys = collection.keys;
+  }
+  
+  void paramsChanged() {
+    if (loaded) this._recollect(new Options(revert: revert));
+  }
+  
+  void revertChanged() {
+    if (loaded) this._recollect(new Options(revert: revert));
   }
 }

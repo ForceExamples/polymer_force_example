@@ -21,7 +21,7 @@
     </style>
     
     <force-on forceClientId="{{forceClientId}}" request="update" data="{{number}}"></force-on>
-    <force-register forceClientId="{{forceClientId}}" name="todos" collection="{{collection}}" keys="{{keys}}"></force-register>
+    <force-register forceClientId="{{forceClientId}}" revert="true" name="todos" collection="{{collection}}" keys="{{keys}}"></force-register>
     <paper-input label="Type something..." value="{{message}}"></paper-input>
     <paper-button raised on-click="{{add}}">Add</paper-button>
 
