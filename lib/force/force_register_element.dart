@@ -62,6 +62,15 @@ class ForceRegisterElement extends ForceElement {
   @published bool revert = false;
   
   /**
+   * the limit of the total results in the collection
+   *
+   * @attribute limit
+   * @type int
+   * @default false
+   */
+  @published int limit = -1;
+  
+  /**
    * The url we need to connect to
    *
    * @attribute name
@@ -104,24 +113,31 @@ class ForceRegisterElement extends ForceElement {
     if (cargo==null) {
         cargo = new Cargo(MODE: CargoMode.LOCAL); 
     }
-    this._recollect(new Options(revert: revert));
+    this._recollect();
     //this.asyncFire('registered');
     
     loaded = true;
   }
   
-  void _recollect(Options options) {
-    ViewCollection todos = forceClient.register(name, cargo, options: options, params: params);
-    collection.activate(todos);
-        
-    keys = collection.keys;
+  void _recollect() {
+    if (forceClient!=null) {
+      Options options = new Options(revert: revert, limit: limit);
+      ViewCollection todos = forceClient.register(name, cargo, options: options, params: params);
+      collection.activate(todos);
+          
+      keys = collection.keys;
+    }
   }
   
   void paramsChanged() {
-    if (loaded) this._recollect(new Options(revert: revert));
+    if (loaded) this._recollect();
   }
   
   void revertChanged() {
-    if (loaded) this._recollect(new Options(revert: revert));
+    if (loaded) this._recollect();
+  }
+  
+  void limitChanged() {
+    if (loaded) this._recollect();
   }
 }
