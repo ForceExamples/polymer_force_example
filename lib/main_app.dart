@@ -4,7 +4,7 @@
 import 'package:polymer/polymer.dart';
 import 'package:cargo/cargo_client.dart';
 
-import 'force/force_register_element.dart';
+import 'package:force_elements/force_register_element.dart';
 
 import 'todo.dart';
 
